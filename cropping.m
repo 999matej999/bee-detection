@@ -8,7 +8,7 @@ ids = imageDatastore('images\*.jpg');
 
 img = preview(ids);
 reset(ids);
-[im_h, im_w, ~] = size(img)
+[im_h, im_w, ~] = size(img);
 
 % ts = tabularTextDatastore('annotations',"TextscanFormats","%s");
 
@@ -22,8 +22,8 @@ reset(ids);
 
 for i = 1:length(ds)
     %known_result = extractAfter(ds(files).name), "images");
-    filename = ds(i).name
-    known_result = extractBefore(filename, ".")
+    filename = ds(i).name;
+    known_result = extractBefore(filename, ".");
     annotation_filename = ['annotations\' known_result '.txt'];
     f = fopen(annotation_filename); 
     if(f > 0)
@@ -48,7 +48,7 @@ for i = 1:length(ds)
             %rectangle('Position', [left, top, w, h], 'EdgeColor', 'r'); %// draw rectangle on image
             switch class
                 case 0
-                    imwrite(img_crop, ['images\bee_complete\' known_result '_' num2str(annot) '.jpg']);
+                    imwrite(img_crop, ['images\bee_complete_in\' known_result '_' num2str(annot) '.jpg']);
                     %imwrite(img, ['images\bee_complete\' known_result '.jpg']);
                 case 1
                     imwrite(img_crop, ['images\bee_head\' known_result '_' num2str(annot) '.jpg']);
@@ -58,6 +58,9 @@ for i = 1:length(ds)
                     %imwrite(img, ['images\bee_abdomen\' known_result '.jpg']);
                 case 3
                     imwrite(img_crop, ['images\bee_cluster\' known_result '_' num2str(annot) '.jpg']);
+                    %imwrite(img, ['images\bee_cluster\\' known_result '.jpg']);
+                case 4
+                    imwrite(img_crop, ['images\bee_complete_out\' known_result '_' num2str(annot) '.jpg']);
                     %imwrite(img, ['images\bee_cluster\\' known_result '.jpg']);
             end
         end
