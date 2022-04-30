@@ -1,5 +1,7 @@
 *.jpg
 *.rar
+*.tgz
+/cnn_test/flower_photos
 
 # MacOS gitignore
 # General
