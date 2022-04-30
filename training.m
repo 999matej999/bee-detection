@@ -131,4 +131,4 @@ imshow(testImage);
 %% conf matrix
 C = confusionmat(testLabels, predictedLabels);
 figure
-confusionchart(C, tbl.Label);
+confusionchart(C, tbl.Label,'RowSummary','row-normalized');
