@@ -2,9 +2,11 @@ close all
 clear
 clc
 
-%ds = datastore('images\*.jpg')
-ds = dir('images\*.jpg');
-ids = imageDatastore('images\*.jpg');
+tic
+
+%ds = datastore('images/*.jpg')
+ds = dir('images/*.jpg');
+ids = imageDatastore('images/*.jpg');
 
 img = preview(ids);
 reset(ids);
@@ -24,7 +26,7 @@ for i = 1:length(ds)
     %known_result = extractAfter(ds(files).name), "images");
     filename = ds(i).name;
     known_result = extractBefore(filename, ".");
-    annotation_filename = ['annotations\' known_result '.txt'];
+    annotation_filename = ['annotations/' known_result '.txt'];
     f = fopen(annotation_filename); 
     if(f > 0)
         Yolo = textscan(f,'%d %f %f %f %f');
@@ -48,19 +50,19 @@ for i = 1:length(ds)
             %rectangle('Position', [left, top, w, h], 'EdgeColor', 'r'); %// draw rectangle on image
             switch class
                 case 0
-                    imwrite(img_crop, ['images\bee_complete_in\' known_result '_' num2str(annot) '.jpg']);
+                    imwrite(img_crop, ['sorted/bee_complete_in/' known_result '_' num2str(annot) '.jpg']);
                     %imwrite(img, ['images\bee_complete\' known_result '.jpg']);
                 case 1
-                    imwrite(img_crop, ['images\bee_head\' known_result '_' num2str(annot) '.jpg']);
+                    imwrite(img_crop, ['sorted/bee_head/' known_result '_' num2str(annot) '.jpg']);
                     %imwrite(img, ['images\bee_head\' known_result '.jpg']);
                 case 2
-                    imwrite(img_crop, ['images\bee_abdomen\' known_result '_' num2str(annot) '.jpg']);
+                    imwrite(img_crop, ['sorted/bee_abdomen/' known_result '_' num2str(annot) '.jpg']);
                     %imwrite(img, ['images\bee_abdomen\' known_result '.jpg']);
                 case 3
-                    imwrite(img_crop, ['images\bee_cluster\' known_result '_' num2str(annot) '.jpg']);
+                    imwrite(img_crop, ['sorted/bee_cluster/' known_result '_' num2str(annot) '.jpg']);
                     %imwrite(img, ['images\bee_cluster\\' known_result '.jpg']);
                 case 4
-                    imwrite(img_crop, ['images\bee_complete_out\' known_result '_' num2str(annot) '.jpg']);
+                    imwrite(img_crop, ['sorted/bee_complete_out/' known_result '_' num2str(annot) '.jpg']);
                     %imwrite(img, ['images\bee_cluster\\' known_result '.jpg']);
             end
         end
@@ -71,3 +73,5 @@ for i = 1:length(ds)
     end
         
 end
+
+toc
