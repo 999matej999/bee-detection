@@ -13,10 +13,10 @@ imageFolder = [pwd, '/sorted'];
 imds = imageDatastore(imageFolder, 'LabelSource', 'foldernames', 'IncludeSubfolders',true);
 
 % Find the first instance of an image for each category
-daisy = find(imds.Labels == 'bee_head', 1);
+%daisy = find(imds.Labels == 'bee_head', 1);
 
-figure
-imshow(readimage(imds,daisy))
+%figure
+%imshow(readimage(imds,daisy))
 
 tbl = countEachLabel(imds)
 
@@ -25,7 +25,7 @@ minSetCount = min(tbl{:,2});
 
 % Limit the number of images to reduce the time it takes
 % run this example.
-maxNumImages = 100;
+maxNumImages = 200;
 minSetCount = min(maxNumImages,minSetCount);
 
 % Use splitEachLabel method to trim the set.
@@ -39,19 +39,19 @@ countEachLabel(imds)
 net = resnet50();
 
 % Visualize the first section of the network. 
-figure
-plot(net)
-title('First section of ResNet-50')
-set(gca,'YLim',[150 170]);
+%figure
+%plot(net)
+%title('First section of ResNet-50')
+%set(gca,'YLim',[150 170]);
 
 % Inspect the first layer
-net.Layers(1)
+%net.Layers(1)
 
 % Inspect the last layer
-net.Layers(end)
+%net.Layers(end)
 
 % Number of class names for ImageNet classification task
-numel(net.Layers(end).ClassNames)
+%numel(net.Layers(end).ClassNames)
 
 %% prepare image sets
 [trainingSet, testSet] = splitEachLabel(imds, 0.3, 'randomize');
@@ -65,17 +65,17 @@ augmentedTestSet = augmentedImageDatastore(imageSize, testSet, 'ColorPreprocessi
 
 %% extract features
 % Get the network weights for the second convolutional layer
-w1 = net.Layers(2).Weights;
+%w1 = net.Layers(2).Weights;
 
 % Scale and resize the weights for visualization
-w1 = mat2gray(w1);
-w1 = imresize(w1,5); 
+%w1 = mat2gray(w1);
+%w1 = imresize(w1,5); 
 
 % Display a montage of network weights. There are 96 individual sets of
 % weights in the first layer.
-figure
-montage(w1)
-title('First convolutional layer weights')
+%figure
+%montage(w1)
+%title('First convolutional layer weights')
 
 featureLayer = 'fc1000';
 trainingFeatures = activations(net, augmentedTrainingSet, featureLayer, ...
@@ -125,8 +125,10 @@ imageFeatures = activations(net, ds, featureLayer, 'OutputAs', 'columns');
 % Make a prediction using the classifier
 predictedLabel = predict(classifier, imageFeatures, 'ObservationsIn', 'columns')
 
+figure
 imshow(testImage);
 
 %% conf matrix
 C = confusionmat(testLabels, predictedLabels);
+figure
 confusionchart(C, tbl.Label);
