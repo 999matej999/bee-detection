@@ -1,21 +1,20 @@
-img = imread('images/Image0314 11-40-24.jpg');
+img = imread('images/Image0538 11-41-09.jpg');
 imshow(rgb2gray(img));
-summ = sum(rgb2gray(255-img), 1);
-%findpeaks(summ);
-%findpeaks(summ, 'MinPeakDistance', 50);
-[peakValues, indexes] = findpeaks(summ, 'MinPeakDistance', 50);
-%plot(indexes)
 
-%avg_brightness = zeros(numel(indexes)-1, 1);
+positions = 12;
+img_begin = [91; 173; 249; 327; 410; 489; 573; 661; 747; 831; 911; 988;];
+img_end = [141; 217; 299; 383; 470; 557; 641; 724; 804; 881; 956; 1028;];
 
-avg_brightness = [129; 160; 172; 163; 123; 89; 83; 120; 160; 167; 159; 129];
+avg_brightness = zeros(numel(12, 1));
 
-for i = 1:(numel(indexes)-1)
-    cropped_img = img(:,indexes(i):indexes(i+1),:);
+%avg_brightness = [129; 160; 172; 163; 123; 89; 83; 120; 160; 167; 159; 129];
 
-    %avg_brightness(i) = mean(cropped_img, 'all');
+for i = 1:(positions)
+    cropped_img = img(:,img_begin(i):img_end(i),:);
 
-    if abs(avg_brightness(i) - mean(cropped_img, 'all')) > 10
+    avg_brightness(i) = mean(cropped_img, 'all');
+
+    if false%abs(avg_brightness(i) - mean(cropped_img, 'all')) > 10
         testImage = cropped_img;
         %testLabel = testSet.Labels(1)
         
