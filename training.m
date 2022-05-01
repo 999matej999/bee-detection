@@ -111,6 +111,11 @@ confMat = bsxfun(@rdivide,confMat,sum(confMat,2))
 % Display the mean accuracy
 mean(diag(confMat))
 
+%% conf matrix
+C = confusionmat(testLabels, predictedLabels);
+figure
+confusionchart(C, tbl.Label,'RowSummary','row-normalized');
+
 %% apply classifier
 testImage = readimage(testSet,1);
 testLabel = testSet.Labels(1)
@@ -127,8 +132,3 @@ predictedLabel = predict(classifier, imageFeatures, 'ObservationsIn', 'columns')
 
 figure
 imshow(testImage);
-
-%% conf matrix
-C = confusionmat(testLabels, predictedLabels);
-figure
-confusionchart(C, tbl.Label,'RowSummary','row-normalized');
