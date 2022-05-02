@@ -25,7 +25,7 @@ for i = 1:length(ds)
     
         %avg_brightness(i, j) = mean(cropped_img, 'all');
     
-        if abs(avg_brightness(j) - mean(cropped_img, 'all')) > img_thresholds(j)
+        if abs(img_avg_brightness(j) - mean(cropped_img, 'all')) > img_thresholds(j)
             testImage = cropped_img;
             %testLabel = testSet.Labels(1)
             
