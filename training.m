@@ -12,19 +12,12 @@ imageFolder = [pwd, '/sorted'];
 %% load
 imds = imageDatastore(imageFolder, 'LabelSource', 'foldernames', 'IncludeSubfolders',true);
 
-% Find the first instance of an image for each category
-%daisy = find(imds.Labels == 'bee_head', 1);
-
-%figure
-%imshow(readimage(imds,daisy))
-
 tbl = countEachLabel(imds)
 
 % Determine the smallest amount of images in a category
 minSetCount = min(tbl{:,2}); 
 
-% Limit the number of images to reduce the time it takes
-% run this example.
+% Limit the number of images to reduce the time it takes run this example.
 maxNumImages = 200;
 minSetCount = min(maxNumImages,minSetCount);
 
@@ -34,27 +27,11 @@ imds = splitEachLabel(imds, minSetCount, 'randomize');
 % Notice that each set now has exactly the same number of images.
 countEachLabel(imds)
 
-%% load pretrained network
-% Load pretrained network
-net = resnet50();
-
-% Visualize the first section of the network. 
-%figure
-%plot(net)
-%title('First section of ResNet-50')
-%set(gca,'YLim',[150 170]);
-
-% Inspect the first layer
-%net.Layers(1)
-
-% Inspect the last layer
-%net.Layers(end)
-
-% Number of class names for ImageNet classification task
-%numel(net.Layers(end).ClassNames)
-
 %% prepare image sets
-[trainingSet, testSet] = splitEachLabel(imds, 0.3, 'randomize');
+[trainingSet, testSet] = splitEachLabel(imds, 0.7, 'randomize');
+
+%% load pretrained network
+net = resnet50();
 
 %% preprocess images
 % Create augmentedImageDatastore from training and test sets to resize
@@ -64,19 +41,6 @@ augmentedTrainingSet = augmentedImageDatastore(imageSize, trainingSet, 'ColorPre
 augmentedTestSet = augmentedImageDatastore(imageSize, testSet, 'ColorPreprocessing', 'gray2rgb');
 
 %% extract features
-% Get the network weights for the second convolutional layer
-%w1 = net.Layers(2).Weights;
-
-% Scale and resize the weights for visualization
-%w1 = mat2gray(w1);
-%w1 = imresize(w1,5); 
-
-% Display a montage of network weights. There are 96 individual sets of
-% weights in the first layer.
-%figure
-%montage(w1)
-%title('First convolutional layer weights')
-
 featureLayer = 'fc1000';
 trainingFeatures = activations(net, augmentedTrainingSet, featureLayer, ...
     'MiniBatchSize', 32, 'OutputAs', 'columns');
