@@ -34,14 +34,14 @@ for img_i = 1:length(ids.Files)
         switch type
             case 1
                 img_rotated = flip(img,2);
-                imwrite(img_rotated, ['images\cropped_rottated\rottated_x\' foldername '\' filename '.jpg']);
+                imwrite(img_rotated, ['images\cropped_rottated\rottated_x\' foldername '\' filename '_x.jpg']);
             case 2
                 img_rotated = flip(img,1);
-                imwrite(img_rotated, ['images\cropped_rottated\rottated_y\' foldername '\' filename '.jpg']);
+                imwrite(img_rotated, ['images\cropped_rottated\rottated_y\' foldername '\' filename '_y.jpg']);
             case 3
                 img_rotated = flip(img,2);
                 img_rotated = flip(img_rotated,1);
-                imwrite(img_rotated, ['images\cropped_rottated\rottated_xy\' foldername '\' filename '.jpg']);
+                imwrite(img_rotated, ['images\cropped_rottated\rottated_xy\' foldername '\' filename '_xy.jpg']);
         end
     end
 end
